@@ -1,7 +1,7 @@
 import streamlit as st
 import pickle
 import numpy as np
-from opencv import cv2
+import cv2
 
 def main():
     st.title("Seminararbeit im ML Seminar, WS23/24")
