@@ -1,28 +1,6 @@
 import streamlit as st
 import pickle
 import numpy as np
-from sklearn.preprocessing import MinMaxScaler
-
-# Funktion zum Laden des Skalierers aus der Pickle-Datei
-def load_scaler(filename):
-    with open(filename, 'rb') as file:
-        scaler = pickle.load(file)
-    return scaler
-
-# Laden des trainierten Modells
-filename = 'finalized_model.sav'
-model = pickle.load(open(filename, 'rb'))
-
-# Laden der Skalierer
-scaler = load_scaler('ScaleFaktors_X.sav')
-scaler_y = load_scaler('ScaleFaktors_y.sav')
-
-def scale_input(input_values, scaler):
-    X_scaled = scaler.transform(np.array([input_values]))
-    return X_scaled
-    
-def inverse_scale_output(output, scaler_y):
-    return scaler_y.inverse_transform(np.array([output]).reshape(-1, 1))
 
 def main():
     st.title("Regressionsübung im ML Seminar, WS23/24")
