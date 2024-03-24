@@ -1,6 +1,7 @@
 import streamlit as st
 import pickle
 import numpy as np
+import cv2
 
 def main():
     st.title("Seminararbeit im ML Seminar, WS23/24")
@@ -17,18 +18,18 @@ def main():
     feed = st.sidebar.number_input('Feed', value=0)
 
     uploaded_image = st.file_uploader('Upload an image of the tool', type=['jpg', 'png'])
+    if uploaded_image is not None:
+        # Convert the uploaded image into a bytes object
+        image_bytes = uploaded_image.read()
+        # Convert the bytes object to a numpy array
+        nparr = np.frombuffer(image_bytes, np.uint8)
+        # Decode the numpy array into an image using OpenCV
+        image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+        # Convert the image from BGR to RGB
+        image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-    # Variablen und ihre Bereichsgrenzen
-    variables = {
-        "cement": (100, 500),
-        "slag": (0, 200),
-        "flyash": (0, 200),
-        "water": (100, 300),
-        "superplasticizer": (0, 30),
-        "coarseaggregate": (800, 1200),
-        "fineaggregate": (600, 1000),
-        "age": (1, 365)
-    }
+    
+    
 
 
     values = []
