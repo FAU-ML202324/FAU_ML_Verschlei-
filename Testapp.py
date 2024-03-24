@@ -5,8 +5,8 @@ import pickle
 import joblib
 
 filename = 'fairly_good_model.sav'
-#large_model = pickle.load(open(filename, 'rb'))
-large_model = joblib.load(filename)
+large_model = pickle.load(open(filename, 'rb'))
+#large_model = joblib.load(filename)
 st.title('Tool Wear Detection App')
 
 # Add a radio button or selectbox for model selection
