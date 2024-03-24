@@ -3,12 +3,8 @@ import pickle
 import numpy as np
 
 def main():
-    st.title("Regressionsübung im ML Seminar, WS23/24")
-    st.header("Prognose der Betonfestigkeit")
-
-    # Abschnitt für SelectSlider-Elemente
-    st.header("Wählen Sie die Mengen Ihrer Betoninhaltsstoffe aus")
-
+    st.title("Seminararbeit im ML Seminar, WS23/24")
+    
     st.title('Tool Wear Detection App')
 
     # Add a radio button or selectbox for model selection
