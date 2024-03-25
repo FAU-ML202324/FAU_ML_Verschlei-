@@ -76,7 +76,7 @@ def main():
             st.text_area("Ergebnis", f"{toolwear_prediction}", height=100)
         bearbeitungszeit = bearbeitungszeit + float(work_cycle)
         wertepaar = (bearbeitungszeit,pred_wear)
-        st.write("Bearbeitungszeit: ", f"{Bearbeitungszeit}"," und Werkzeugzustand: ", f"{pred_wear}")
+        st.write("Bearbeitungszeit: ", f"{bearbeitungszeit}"," und Werkzeugzustand: ", f"{pred_wear}")
         if machine_name in wertepaare_dict:
             wertepaare_dict[machine_name].append(wertepaar)
         else:
