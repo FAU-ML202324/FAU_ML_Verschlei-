@@ -82,7 +82,7 @@ def main():
         else:
             wertepaare_dict[machine_name] = [wertepaar]
 
-    if st.button("Verschleißverlauf anzeigen") == True:
+    if st.sidebar.button("Verschleißverlauf anzeigen") == True:
         st.write("Hier Diagramm mit allen Werten aus wertepaare_dict für st.sidebar.text_input('Machine Name')")
 
 if __name__ == "__main__":
