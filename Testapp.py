@@ -53,7 +53,7 @@ def main():
     work_cycle = st.sidebar.text_input('Bearbeitungsdauer (min)')
     speed = st.sidebar.number_input('Schnittgeschwindigkeit (m/min)', value=0)
     feed = st.sidebar.number_input('Vorschubgeschwindigkeit (mm/min)', value=0)
-    bearbeitungszeit = 0
+    bearbeitungszeit = 0.0
 
     if st.button("Werkzeugzustand bewerten") == True:
         image = Image.open(uploaded_image)
@@ -74,7 +74,7 @@ def main():
             prediction = predict_tool_wear_large(image_array)
             st.write("Werkzeugzustand:")
             st.text_area("Ergebnis", f"{toolwear_prediction}", height=100)
-        bearbeitungszeit = bearbeitungszeit + work_cycle
+        bearbeitungszeit = bearbeitungszeit + float(work_cycle)
         wertepaar = (bearbeitungszeit,pred_wear)
         st.write("Bearbeitungszeit: ", f"{Bearbeitungszeit}"," und Werkzeugzustand: ", f"{pred_wear}")
         if machine_name in wertepaare_dict:
