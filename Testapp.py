@@ -28,7 +28,7 @@ def predict_tool_wear_large(image):
     else:
       modelprediction = 'Neuwertig'
     confidence = round(result[0][max_index(result)]*100,2)
-    pred_wear = round(result[0]+result[0]*100,1)
+    pred_wear = round((result[1]+result[2])*100,1)
     return modelprediction, confidence, pred_wear
 
 # Function to make predictions using the small model
