@@ -64,7 +64,7 @@ def main():
             modelprediction, confidence = predict_tool_wear_large(image_array)
             st.write("Werkzeugzustand:")
             st.text_area("Ergebnis", f"{modelprediction}", height=100)
-            st.write("Wie sicher ist sich das Modell bei dieser Klassifizierung: ", f"{confidence}"))
+            st.write("Wie sicher ist sich das Modell bei dieser Klassifizierung: ", f"{confidence}")
         elif model_choice == 'Small Model':
             toolwear_prediction = predict_tool_wear_small(image_array)
             prediction = predict_tool_wear_large(image_array)
