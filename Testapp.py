@@ -25,7 +25,7 @@ def predict_tool_wear_large(image):
       modelprediction = 'Mittel'
     else:
       modelprediction = 'Neuwertig'
-    confidence = result[0][max_index(result)]*100
+    confidence = round(result[0][max_index(result)]*100,2)
     return modelprediction, confidence
 
 # Function to make predictions using the small model
@@ -51,7 +51,7 @@ def main():
     speed = st.sidebar.number_input('Speed', value=0)
     feed = st.sidebar.number_input('Feed', value=0)
 
-    if st.button("Werkzeugzustand bewerten"):
+    if st.button("Werkzeugzustand bewerten") == True:
         image = Image.open(uploaded_image)
         #st.image(image, caption='Uploaded Image', use_column_width=True)
         cropped_image = image.crop((left, upper, right, lower))
