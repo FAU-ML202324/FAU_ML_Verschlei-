@@ -76,7 +76,7 @@ def main():
         global bearbeitungszeit 
         bearbeitungszeit += float(work_cycle)
         wertepaar = (bearbeitungszeit,pred_wear)
-        st.write(" und Werkzeugzustand: ", f"{pred_wear}") #"Bearbeitungszeit: ", f"{bearbeitungszeit}",
+        st.write("Bearbeitungszeit: ", f"{bearbeitungszeit}"," und Werkzeugzustand: ", f"{pred_wear}") #"Bearbeitungszeit: ", f"{bearbeitungszeit}",
         if machine_name in wertepaare_dict:
             wertepaare_dict[machine_name].append(wertepaar)
         else:
@@ -85,7 +85,7 @@ def main():
     if st.sidebar.button("Verschleißverlauf anzeigen") == True:
         st.write("Hier Diagramm mit allen Werten aus wertepaare_dict für st.sidebar.text_input('Machine Name')")
         for key, value in wertepaare_dict.items():
-            print(f"{key}: {value}")
+            st.write(f"{key}: {value}")
 
 if __name__ == "__main__":
     main()
