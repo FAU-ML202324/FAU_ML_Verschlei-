@@ -84,11 +84,13 @@ def main():
             wertepaare_dict[machine_name].append(wertepaar)
         else:
             wertepaare_dict[machine_name] = [wertepaar]
+        for maschine, wertepaare in wertepaare_dict.items():
+            st.write(f"Maschine: {maschine}")
+            for bearbeitungszeit, werkzeugzustand in wertepaare:
+                st.write(f"Bearbeitungszeit: {bearbeitungszeit}, Werkzeugzustand: {werkzeugzustand}")
 
     if st.sidebar.button("Verschleißverlauf anzeigen") == True:
         st.write("Hier Diagramm mit allen Werten aus wertepaare_dict für st.sidebar.text_input('Machine Name')")
-        for key, value in wertepaare_dict.items():
-            st.write(f"{key}: {value}")
 
 if __name__ == "__main__":
     main()
