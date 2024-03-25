@@ -50,7 +50,8 @@ def main():
     work_cycle = st.sidebar.text_input('Work Cycle')
     speed = st.sidebar.number_input('Speed', value=0)
     feed = st.sidebar.number_input('Feed', value=0)
-    if uploaded_image is not None:
+
+    if st.button("Werkzeugzustand bewerten"):
         image = Image.open(uploaded_image)
         #st.image(image, caption='Uploaded Image', use_column_width=True)
         cropped_image = image.crop((left, upper, right, lower))
@@ -58,8 +59,6 @@ def main():
         bild=[]
         bild.append(resized_image)
         image_array = np.asarray(bild)
-
-    if st.button("Werkzeugzustand bewerten"):
         if model_choice == 'Large Model':
             modelprediction, confidence = predict_tool_wear_large(image_array)
             st.write("Werkzeugzustand:")
