@@ -15,7 +15,7 @@ left = 125
 upper = 440
 right = 1475
 lower = 800
-bearbeitungszeit = 0
+
 wertepaare_dict = {}
 
 # Function to make predictions using the small model
@@ -53,6 +53,7 @@ def main():
     work_cycle = st.sidebar.text_input('Bearbeitungsdauer (min)')
     speed = st.sidebar.number_input('Schnittgeschwindigkeit (m/min)', value=0)
     feed = st.sidebar.number_input('Vorschubgeschwindigkeit (mm/min)', value=0)
+    bearbeitungszeit = 0
 
     if st.button("Werkzeugzustand bewerten") == True:
         image = Image.open(uploaded_image)
@@ -60,6 +61,7 @@ def main():
         cropped_image = image.crop((left, upper, right, lower))
         resized_image = cropped_image.resize((cropped_image.width // 2, cropped_image.height // 2))
         bild=[]
+        
         bild.append(resized_image)
         image_array = np.asarray(bild)
         if model_choice == 'Large Model':
