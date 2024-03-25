@@ -15,6 +15,8 @@ left = 125
 upper = 440
 right = 1475
 lower = 800
+bearbeitungszeit = 0
+wertepaare_dict = {}
 
 # Function to make predictions using the small model
 def predict_tool_wear_large(image):
@@ -26,7 +28,8 @@ def predict_tool_wear_large(image):
     else:
       modelprediction = 'Neuwertig'
     confidence = round(result[0][max_index(result)]*100,2)
-    return modelprediction, confidence
+    pred_wear = round(result[0]+result[0]*100,1)
+    return modelprediction, confidence, pred_wear
 
 # Function to make predictions using the small model
 def predict_tool_wear_small(image):
@@ -47,9 +50,9 @@ def main():
 
     st.sidebar.title('Enter Data')
     machine_name = st.sidebar.text_input('Machine Name')
-    work_cycle = st.sidebar.text_input('Work Cycle')
-    speed = st.sidebar.number_input('Speed', value=0)
-    feed = st.sidebar.number_input('Feed', value=0)
+    work_cycle = st.sidebar.text_input('Bearbeitungsdauer (min)')
+    speed = st.sidebar.number_input('Schnittgeschwindigkeit (m/min)', value=0)
+    feed = st.sidebar.number_input('Vorschubgeschwindigkeit (mm/min)', value=0)
 
     if st.button("Werkzeugzustand bewerten") == True:
         image = Image.open(uploaded_image)
@@ -60,7 +63,7 @@ def main():
         bild.append(resized_image)
         image_array = np.asarray(bild)
         if model_choice == 'Large Model':
-            modelprediction, confidence = predict_tool_wear_large(image_array)
+            modelprediction, confidence, pred_wear = predict_tool_wear_large(image_array)
             st.write("Werkzeugzustand:")
             st.text_area("Ergebnis", f"{modelprediction}", height=100)
             st.write("Wie sicher ist sich das Modell bei dieser Klassifizierung: ", f"{confidence}")
@@ -69,7 +72,16 @@ def main():
             prediction = predict_tool_wear_large(image_array)
             st.write("Werkzeugzustand:")
             st.text_area("Ergebnis", f"{toolwear_prediction}", height=100)
+        bearbeitungszeit = bearbeitungszeit + work_cycle
+        wertepaar = (bearbeitungszeit,pred_wear)
+        st.write("Bearbeitungszeit: ", f"{Bearbeitungszeit}"," und Werkzeugzustand: ", f"{pred_wear}")
+        if machine_name in wertepaare_dict:
+            wertepaare_dict[machine_name].append(wertepaar)
+        else:
+            wertepaare_dict[machine_name] = [wertepaar]
 
+    if st.button("Verschleißverlauf anzeigen") == True:
+        st.write("Hier Diagramm mit allen Werten aus wertepaare_dict für st.sidebar.text_input('Machine Name')")
 
 if __name__ == "__main__":
     main()
