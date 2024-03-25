@@ -15,7 +15,7 @@ left = 125
 upper = 440
 right = 1475
 lower = 800
-
+bearbeitungszeit = 0.0
 wertepaare_dict = {}
 
 # Function to make predictions using the small model
@@ -53,17 +53,16 @@ def main():
     work_cycle = st.sidebar.text_input('Bearbeitungsdauer (min)')
     speed = st.sidebar.number_input('Schnittgeschwindigkeit (m/min)', value=0)
     feed = st.sidebar.number_input('Vorschubgeschwindigkeit (mm/min)', value=0)
-    bearbeitungszeit = 0.0
-
+    
     if st.button("Werkzeugzustand bewerten") == True:
         image = Image.open(uploaded_image)
         #st.image(image, caption='Uploaded Image', use_column_width=True)
         cropped_image = image.crop((left, upper, right, lower))
         resized_image = cropped_image.resize((cropped_image.width // 2, cropped_image.height // 2))
         bild=[]
-        
         bild.append(resized_image)
         image_array = np.asarray(bild)
+        
         if model_choice == 'Large Model':
             modelprediction, confidence, pred_wear = predict_tool_wear_large(image_array)
             st.write("Werkzeugzustand:")
@@ -74,9 +73,9 @@ def main():
             prediction = predict_tool_wear_large(image_array)
             st.write("Werkzeugzustand:")
             st.text_area("Ergebnis", f"{toolwear_prediction}", height=100)
-        bearbeitungszeit = bearbeitungszeit + float(work_cycle)
-        wertepaar = (bearbeitungszeit,pred_wear)
-        st.write("Bearbeitungszeit: ", f"{bearbeitungszeit}"," und Werkzeugzustand: ", f"{pred_wear}")
+        global bearbeitungszeit += float(work_cycle)
+        wertepaar = (global bearbeitungszeit,pred_wear)
+        st.write(" und Werkzeugzustand: ", f"{pred_wear}") #"Bearbeitungszeit: ", f"{bearbeitungszeit}",
         if machine_name in wertepaare_dict:
             wertepaare_dict[machine_name].append(wertepaar)
         else:
@@ -84,6 +83,8 @@ def main():
 
     if st.sidebar.button("Verschleißverlauf anzeigen") == True:
         st.write("Hier Diagramm mit allen Werten aus wertepaare_dict für st.sidebar.text_input('Machine Name')")
+        for key, value in wertepaare_dict.items():
+            print(f"{key}: {value}")
 
 if __name__ == "__main__":
     main()
