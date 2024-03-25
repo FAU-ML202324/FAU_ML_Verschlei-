@@ -87,7 +87,6 @@ def main():
 
     if st.sidebar.button("Verschleißverlauf anzeigen") == True:
         st.write("Hier Diagramm mit allen Werten aus wertepaare_dict für st.sidebar.text_input('Machine Name')")
-        global wertepaare_dict
         for key, value in wertepaare_dict.items():
             st.write(f"{key}: {value}")
 
