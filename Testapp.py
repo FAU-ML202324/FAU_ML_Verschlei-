@@ -73,8 +73,9 @@ def main():
             prediction = predict_tool_wear_large(image_array)
             st.write("Werkzeugzustand:")
             st.text_area("Ergebnis", f"{toolwear_prediction}", height=100)
-        global bearbeitungszeit += float(work_cycle)
-        wertepaar = (global bearbeitungszeit,pred_wear)
+        global bearbeitungszeit 
+        bearbeitungszeit += float(work_cycle)
+        wertepaar = (bearbeitungszeit,pred_wear)
         st.write(" und Werkzeugzustand: ", f"{pred_wear}") #"Bearbeitungszeit: ", f"{bearbeitungszeit}",
         if machine_name in wertepaare_dict:
             wertepaare_dict[machine_name].append(wertepaar)
