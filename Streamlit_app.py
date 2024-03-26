@@ -13,16 +13,13 @@ large_model = load_model()
 
 
 
-uploaded_image = st.file_uploader('Upload an image of the tool', type=['jpg', 'png'])
+uploaded_image = st.file_uploader('Lade ein Bild vom Werkzeug hoch', type=['jpg', 'png'])
 left = 125
 upper = 440
 right = 1475
 lower = 800
 bearbeitungszeit = 0.0
-wertepaare_dict = {}
 
-
-# Function to make predictions using the small model
 def predict_tool_wear_large(image):
     result = large_model.predict(image)
     if max_index(result)== 0:
@@ -34,12 +31,7 @@ def predict_tool_wear_large(image):
     confidence = round(result[0][max_index(result)]*100,2)
     pred_wear = round((result[0][1]+result[0][2])*100,1)
     return modelprediction, confidence, pred_wear
-
-# Function to make predictions using the small model
-def predict_tool_wear_small(image):
-    # Your code to predict using the small model
-    return "Small model prediction"
-    
+  
 def max_index(modelpred):
   a = modelpred[0]
   max_ind = max(enumerate(a),key=lambda x: x[1])[0]
@@ -58,13 +50,11 @@ def save_results(results, filename):
         json.dump(results, file)
 
 
-
 def main():
 
     st.title('Bestimmen des Werkzeugverschleißes')
 
-    # Add a radio button or selectbox for model selection
-    model_choice = st.sidebar.radio('Choose Model', ('Large Model', 'Small Model'))
+    #model_choice = st.sidebar.radio('Choose Model', ('Large Model', 'Small Model'))
 
     st.sidebar.title('Daten eingeben')
     machine_name = st.sidebar.text_input('Maschine')
@@ -89,7 +79,7 @@ def main():
             modelprediction, confidence, pred_wear = predict_tool_wear_large(image_array)
             st.write("Werkzeugzustand:")
             st.text_area("Ergebnis", f"{modelprediction}", height=100)
-            st.write("Wie sicher ist sich das Modell bei dieser Klassifizierung: ", f"{confidence}")
+            st.write("Wie sicher ist sich das Modell bei dieser Klassifizierung: ", f"{confidence}", "%")
         elif model_choice == 'Small Model':
             toolwear_prediction = predict_tool_wear_small(image_array)
             prediction = predict_tool_wear_large(image_array)
@@ -119,8 +109,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-  
-#if st.sidebar.button("Verschleißverlauf anzeigen") == True:
-    #st.write("Hier Diagramm mit allen Werten aus wertepaare_dict für st.sidebar.text_input('Machine Name')")
+
     
 
