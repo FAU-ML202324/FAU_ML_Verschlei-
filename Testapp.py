@@ -4,9 +4,9 @@ import numpy as np
 import joblib
 import json
 
-filename = 'model_augment_quiteokay.pkl'
+model_name = 'model_augment_quiteokay.pkl'
 #large_model = pickle.load(open(filename, 'rb'))
-large_model = joblib.load(filename)
+large_model = joblib.load(model_name)
 
 
 
