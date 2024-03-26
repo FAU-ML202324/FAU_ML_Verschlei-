@@ -78,7 +78,7 @@ def main():
     		bild=[]
     		bild.append(resized_image)
     		image_array = np.asarray(bild)
-		    modelprediction, confidence, pred_wear = predict_tool_wear_large(image_array)
+		modelprediction, confidence, pred_wear = predict_tool_wear_large(image_array)
     		st.write("Werkzeugzustand:")
     		st.text_area("Ergebnis", f"{modelprediction}", height=100)
     		st.write("Wie sicher ist sich das Modell bei dieser Klassifizierung: ", f"{confidence}")
