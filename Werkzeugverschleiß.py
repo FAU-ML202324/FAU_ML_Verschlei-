@@ -75,8 +75,7 @@ def main():
     feed = st.sidebar.number_input('Vorschubgeschwindigkeit (mm/min)', value=0)
     angle = st.sidebar.number_input('Zustellung (mm)', value=0)
     rotation = st.sidebar.number_input('Drehzahl (U/min)', value=0)
-    filename = 'Ergebnis.json'
-    results = load_results(filename)
+    results = {}
     
     if st.button("Werkzeugzustand bewerten") == True:
         image = Image.open(uploaded_image)
@@ -104,8 +103,7 @@ def main():
                 'Bearbeitungsdauer': work_cycle,
                 'Verschleißzustand_quantitativ': pred_wear
             }]
-    ergebnis = save_results(results, filename)
-    st.download_button('Download JSON', data=ergebnis, file_name = 'Ergebnisse der Modellanalyse') #'Hier würden die Ergebnisse stehen'
+    st.download_button('Download JSON', data=results, file_name = 'Ergebnisse der Modellanalyse') #'Hier würden die Ergebnisse stehen'
 
 
 
