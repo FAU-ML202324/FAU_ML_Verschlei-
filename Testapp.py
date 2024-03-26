@@ -61,11 +61,15 @@ def main():
     # Add a radio button or selectbox for model selection
     model_choice = st.sidebar.radio('Choose Model', ('Large Model', 'Small Model'))
 
-    st.sidebar.title('Enter Data')
-    machine_name = st.sidebar.text_input('Machine Name')
+    st.sidebar.title('Daten eingeben')
+    machine_name = st.sidebar.text_input('Maschine')
+    tool_type = st.sidebar.text_input('Werkzeugtyp')
+    st.sidebar.title('Prozessparameter')
     work_cycle = st.sidebar.text_input('Bearbeitungsdauer (min)')
     speed = st.sidebar.number_input('Schnittgeschwindigkeit (m/min)', value=0)
     feed = st.sidebar.number_input('Vorschubgeschwindigkeit (mm/min)', value=0)
+    angle = st.sidebar.number_input('Zustellung (mm)', value=0)
+    rotation = st.sidebar.number_input('Drehgeschwindigkeit', value=0)
     
     if st.button("Werkzeugzustand bewerten") == True:
         image = Image.open(uploaded_image)
