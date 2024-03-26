@@ -21,7 +21,7 @@ lower = 800
 bearbeitungszeit = 0.0
 wertepaare_dict = {}
 filename = ''
-ergebnis
+ergebnis = ''
 
 # Function to make predictions using the small model
 def predict_tool_wear_large(image):
