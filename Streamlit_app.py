@@ -109,7 +109,7 @@ def main():
                 'Verschleißzustand_quantitativ': pred_wear
             }]
         save_results(results, filename)
-		st.download_button(
+	st.download_button(
     		label="Download data as JSON",
     		data=filename,
     		file_name='Ergebnis.json',
