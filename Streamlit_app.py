@@ -4,7 +4,7 @@ import numpy as np
 import joblib
 import json
 
-@st.cache(hash_funcs={"MyUnhashableClass": lambda _: None}
+@st.cache_resource
 def load_model():
 	  return joblib.load('model_augment_quiteokay.pkl')
     
