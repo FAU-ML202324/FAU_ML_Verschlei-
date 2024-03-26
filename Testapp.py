@@ -2,6 +2,7 @@ import streamlit as st
 from PIL import Image
 import numpy as np
 import joblib
+import json
 
 filename = 'model_augment_quiteokay.pkl'
 #large_model = pickle.load(open(filename, 'rb'))
@@ -41,6 +42,18 @@ def max_index(modelpred):
   max_ind = max(enumerate(a),key=lambda x: x[1])[0]
   return max_ind
 
+def load_results(filename):
+    try:
+        with open(filename, 'r') as file:
+            results = json.load(file)
+    except FileNotFoundError:
+        results = {}
+    return results
+
+def save_results(results, filename):
+    with open(filename, 'w') as file:
+        json.dump(results, file)
+
 def main():
 
     st.title('Tool Wear Detection App')
@@ -73,21 +86,36 @@ def main():
             prediction = predict_tool_wear_large(image_array)
             st.write("Werkzeugzustand:")
             st.text_area("Ergebnis", f"{toolwear_prediction}", height=100)
-        global bearbeitungszeit 
-        global wertepaare_dict
-        st.write(f"{bearbeitungszeit}")
-        bearbeitungszeit += float(work_cycle)
-        st.write(f"{bearbeitungszeit}")
-        wertepaar = (bearbeitungszeit,pred_wear)
-        st.write("Bearbeitungszeit: ", f"{bearbeitungszeit}"," und Werkzeugzustand: ", f"{pred_wear}") #"Bearbeitungszeit: ", f"{bearbeitungszeit}",
-        if machine_name in wertepaare_dict:
-            wertepaare_dict[machine_name].append(wertepaar)
+        #global bearbeitungszeit 
+        #global wertepaare_dict
+        #st.write(f"{bearbeitungszeit}")
+        #bearbeitungszeit += float(work_cycle)
+        #st.write(f"{bearbeitungszeit}")
+        #wertepaar = (bearbeitungszeit,pred_wear)
+        #st.write("Bearbeitungszeit: ", f"{bearbeitungszeit}"," und Werkzeugzustand: ", f"{pred_wear}") #"Bearbeitungszeit: ", f"{bearbeitungszeit}",
+        #if machine_name in wertepaare_dict:
+        #    wertepaare_dict[machine_name].append(wertepaar)
+        #else:
+        #    wertepaare_dict[machine_name] = [wertepaar]
+        #for maschine, wertepaare in wertepaare_dict.items():
+        #    st.write(f"Maschine: {maschine}")
+        #    for bearbeitungszeit, werkzeugzustand in wertepaare:
+        #        st.write(f"Bearbeitungszeit: {bearbeitungszeit}, Werkzeugzustand: {werkzeugzustand}")
+        filename = 'Ergebnis.json'
+        results = load_results(filename)
+        if machine_name in results:
+            results[machine_name].append({
+                'Verschleißzustand': modelprediction,
+                'Bearbeitungsdauer': work_cycle,
+                'Verschleißzustand_quantitativ': pred_wear
+            })
         else:
-            wertepaare_dict[machine_name] = [wertepaar]
-        for maschine, wertepaare in wertepaare_dict.items():
-            st.write(f"Maschine: {maschine}")
-            for bearbeitungszeit, werkzeugzustand in wertepaare:
-                st.write(f"Bearbeitungszeit: {bearbeitungszeit}, Werkzeugzustand: {werkzeugzustand}")
+            results[machine_name] = [{
+                'Verschleißzustand': modelprediction,
+                'Bearbeitungsdauer': work_cycle,
+                'Verschleißzustand_quantitativ': pred_wear
+            }]
+        save_results(results, filename)
 
     if st.sidebar.button("Verschleißverlauf anzeigen") == True:
         st.write("Hier Diagramm mit allen Werten aus wertepaare_dict für st.sidebar.text_input('Machine Name')")
