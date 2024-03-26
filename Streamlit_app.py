@@ -110,7 +110,7 @@ def main():
                 'Verschleißzustand_quantitativ': pred_wear
             }]
         save_results(results, filename)
-    st.download_button('Download JSON', data=filename, file_name = 'Ergebnisse der Modellanalyse')
+    st.download_button('Download JSON', data='Hier würden die Ergebnisse stehen', file_name = 'Ergebnisse der Modellanalyse')
 
 
 
