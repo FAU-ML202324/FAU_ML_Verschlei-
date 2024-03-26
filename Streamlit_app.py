@@ -20,8 +20,7 @@ right = 1475
 lower = 800
 bearbeitungszeit = 0.0
 wertepaare_dict = {}
-filename = ''
-ergebnis = ''
+
 
 # Function to make predictions using the small model
 def predict_tool_wear_large(image):
@@ -110,9 +109,8 @@ def main():
                 'Bearbeitungsdauer': work_cycle,
                 'Verschleißzustand_quantitativ': pred_wear
             }]
-        global ergebnis
-        ergebnis = save_results(results, filename)
-    st.download_button('Download JSON', data=ergebnis, file_name = 'Ergebnisse der Modellanalyse')
+        save_results(results, filename)
+    st.download_button('Download JSON', data=filename, file_name = 'Ergebnisse der Modellanalyse')
 
 
 
