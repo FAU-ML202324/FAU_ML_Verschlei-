@@ -21,6 +21,7 @@ lower = 800
 bearbeitungszeit = 0.0
 wertepaare_dict = {}
 filename = ''
+ergebnis
 
 # Function to make predictions using the small model
 def predict_tool_wear_large(image):
@@ -95,7 +96,6 @@ def main():
             prediction = predict_tool_wear_large(image_array)
             st.write("Werkzeugzustand:")
             st.text_area("Ergebnis", f"{toolwear_prediction}", height=100)
-        global filename
         filename = 'Ergebnis.json'
         results = load_results(filename)
         if machine_name in results:
@@ -110,6 +110,7 @@ def main():
                 'Bearbeitungsdauer': work_cycle,
                 'Verschleißzustand_quantitativ': pred_wear
             }]
+	global ergebnis
         ergebnis = save_results(results, filename)
     st.download_button('Download JSON', data=ergebnis, file_name = 'Ergebnisse der Modellanalyse')
 
