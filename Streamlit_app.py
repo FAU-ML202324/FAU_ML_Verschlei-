@@ -104,6 +104,9 @@ def main():
     	file_name='Ergebnis.json',
     	mime='json'
 	)
+
+if __name__ == "__main__":
+    main()
   
 #if st.sidebar.button("Verschleißverlauf anzeigen") == True:
     #st.write("Hier Diagramm mit allen Werten aus wertepaare_dict für st.sidebar.text_input('Machine Name')")
