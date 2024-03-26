@@ -9,7 +9,6 @@ joblib==1.3.2
 Pillow==10.2.0 
 opencv-python==4.9.0.80
 scikit-learn
-json==2020-12
 
 
 
