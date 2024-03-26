@@ -69,35 +69,41 @@ feed = st.sidebar.number_input('Vorschubgeschwindigkeit (mm/min)', value=0)
 angle = st.sidebar.number_input('Zustellung (mm)', value=0)
 rotation = st.sidebar.number_input('Drehgeschwindigkeit', value=0)
 
-    
-if st.button("Werkzeugzustand bewerten") == True:
-    image = Image.open(uploaded_image)
-    #st.image(image, caption='Uploaded Image', use_column_width=True)
-    cropped_image = image.crop((left, upper, right, lower))
-    resized_image = cropped_image.resize((cropped_image.width // 2, cropped_image.height // 2))
-    bild=[]
-    bild.append(resized_image)
-    image_array = np.asarray(bild)
-    modelprediction, confidence, pred_wear = predict_tool_wear_large(image_array)
-    st.write("Werkzeugzustand:")
-    st.text_area("Ergebnis", f"{modelprediction}", height=100)
-    st.write("Wie sicher ist sich das Modell bei dieser Klassifizierung: ", f"{confidence}")
+def main():    
+	if st.button("Werkzeugzustand bewerten") == True:
+    		image = Image.open(uploaded_image)
+    		#st.image(image, caption='Uploaded Image', use_column_width=True)
+    		cropped_image = image.crop((left, upper, right, lower))
+    		resized_image = cropped_image.resize((cropped_image.width // 2, cropped_image.height // 2))
+    		bild=[]
+    		bild.append(resized_image)
+    		image_array = np.asarray(bild)
+		    modelprediction, confidence, pred_wear = predict_tool_wear_large(image_array)
+    		st.write("Werkzeugzustand:")
+    		st.text_area("Ergebnis", f"{modelprediction}", height=100)
+    		st.write("Wie sicher ist sich das Modell bei dieser Klassifizierung: ", f"{confidence}")
        
-    filename = 'Ergebnis.json'
-    results = load_results(filename)
-    if machine_name in results:
-        results[machine_name].append({
-            'Verschleißzustand': modelprediction,
-            'Bearbeitungsdauer': work_cycle,
-            'Verschleißzustand_quantitativ': pred_wear
-        })
-    else:
-        results[machine_name] = [{
-            'Verschleißzustand': modelprediction,
-            'Bearbeitungsdauer': work_cycle,
-            'Verschleißzustand_quantitativ': pred_wear
-        }]
-    save_results(results, filename)
+    		filename = 'Ergebnis.json'
+    		results = load_results(filename)
+    		if machine_name in results:
+        		results[machine_name].append({
+            		'Verschleißzustand': modelprediction,
+            		'Bearbeitungsdauer': work_cycle,
+            		'Verschleißzustand_quantitativ': pred_wear
+        		})
+    		else:
+        		results[machine_name] = [{
+            		'Verschleißzustand': modelprediction,
+            		'Bearbeitungsdauer': work_cycle,
+            		'Verschleißzustand_quantitativ': pred_wear
+		        }]
+    		save_results(results, filename)
+		st.download_button(
+    		label="Download data as JSON",
+    		data=filename,
+    		file_name='Ergebnis.json',
+    		mime='json'
+		)
   
 #if st.sidebar.button("Verschleißverlauf anzeigen") == True:
     #st.write("Hier Diagramm mit allen Werten aus wertepaare_dict für st.sidebar.text_input('Machine Name')")
