@@ -95,7 +95,7 @@ def main():
             prediction = predict_tool_wear_large(image_array)
             st.write("Werkzeugzustand:")
             st.text_area("Ergebnis", f"{toolwear_prediction}", height=100)
-	global filename
+        global filename
         filename = 'Ergebnis.json'
         results = load_results(filename)
         if machine_name in results:
