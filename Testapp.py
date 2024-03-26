@@ -121,7 +121,7 @@ def main():
                 'Verschleißzustand_quantitativ': pred_wear
             }]
         save_results(results, filename)
-
+        st.markdown("[Lade Ergebnis als JSON herunter](Ergebnis.json)")
     if st.sidebar.button("Verschleißverlauf anzeigen") == True:
         st.write("Hier Diagramm mit allen Werten aus wertepaare_dict für st.sidebar.text_input('Machine Name')")
 
