@@ -56,7 +56,66 @@ def save_results(results, filename):
     with open(filename, 'w') as file:
         json.dump(results, file)
 
-  
+
+
+def main():
+
+    st.title('Tool Wear Detection App')
+
+    # Add a radio button or selectbox for model selection
+    model_choice = st.sidebar.radio('Choose Model', ('Large Model', 'Small Model'))
+
+    st.sidebar.title('Daten eingeben')
+    machine_name = st.sidebar.text_input('Maschine')
+    tool_type = st.sidebar.text_input('Werkzeugtyp')
+    st.sidebar.title('Prozessparameter')
+    work_cycle = st.sidebar.text_input('Bearbeitungsdauer (min)')
+    speed = st.sidebar.number_input('Schnittgeschwindigkeit (m/min)', value=0)
+    feed = st.sidebar.number_input('Vorschubgeschwindigkeit (mm/min)', value=0)
+    angle = st.sidebar.number_input('Zustellung (mm)', value=0)
+    rotation = st.sidebar.number_input('Drehgeschwindigkeit', value=0)
+    
+    if st.button("Werkzeugzustand bewerten") == True:
+        image = Image.open(uploaded_image)
+        #st.image(image, caption='Uploaded Image', use_column_width=True)
+        cropped_image = image.crop((left, upper, right, lower))
+        resized_image = cropped_image.resize((cropped_image.width // 2, cropped_image.height // 2))
+        bild=[]
+        bild.append(resized_image)
+        image_array = np.asarray(bild)
+        
+        if model_choice == 'Large Model':
+            modelprediction, confidence, pred_wear = predict_tool_wear_large(image_array)
+            st.write("Werkzeugzustand:")
+            st.text_area("Ergebnis", f"{modelprediction}", height=100)
+            st.write("Wie sicher ist sich das Modell bei dieser Klassifizierung: ", f"{confidence}")
+        elif model_choice == 'Small Model':
+            toolwear_prediction = predict_tool_wear_small(image_array)
+            prediction = predict_tool_wear_large(image_array)
+            st.write("Werkzeugzustand:")
+            st.text_area("Ergebnis", f"{toolwear_prediction}", height=100)
+        filename = 'Ergebnis.json'
+        results = load_results(filename)
+        if machine_name in results:
+            results[machine_name].append({
+                'Verschleißzustand': modelprediction,
+                'Bearbeitungsdauer': work_cycle,
+                'Verschleißzustand_quantitativ': pred_wear
+            })
+        else:
+            results[machine_name] = [{
+                'Verschleißzustand': modelprediction,
+                'Bearbeitungsdauer': work_cycle,
+                'Verschleißzustand_quantitativ': pred_wear
+            }]
+        save_results(results, filename)
+	st.download_button(
+    	label="Download data as JSON",
+    	data=filename,
+    	file_name='Ergebnis.json',
+    	mime='json'
+	)
+
 st.title('Bestimmen des Werkzeugverschleißes')
 
 st.sidebar.title('Daten eingeben')
@@ -69,40 +128,7 @@ feed = st.sidebar.number_input('Vorschubgeschwindigkeit (mm/min)', value=0)
 angle = st.sidebar.number_input('Zustellung (mm)', value=0)
 rotation = st.sidebar.number_input('Drehgeschwindigkeit', value=0)
 
-def main():
-	if st.button("Werkzeugzustand bewerten") == True:
-    		image = Image.open(uploaded_image)
-    		#st.image(image, caption='Uploaded Image', use_column_width=True)
-    		cropped_image = image.crop((left, upper, right, lower))
-    		resized_image = cropped_image.resize((cropped_image.width // 2, cropped_image.height // 2))
-    		bild=[]
-    		bild.append(resized_image)
-    		image_array = np.asarray(bild)
-		modelprediction, confidence, pred_wear = predict_tool_wear_large(image_array)
-    		st.write("Werkzeugzustand:")
-    		st.text_area("Ergebnis", f"{modelprediction}", height=100)
-    		st.write("Wie sicher ist sich das Modell bei dieser Klassifizierung: ", f"{confidence}")
-    		filename = 'Ergebnis.json'
-    		results = load_results(filename)
-    		if machine_name in results:
-        		results[machine_name].append({
-            		'Verschleißzustand': modelprediction,
-            		'Bearbeitungsdauer': work_cycle,
-            		'Verschleißzustand_quantitativ': pred_wear
-        		})
-    		else:
-        		results[machine_name] = [{
-            		'Verschleißzustand': modelprediction,
-            		'Bearbeitungsdauer': work_cycle,
-            		'Verschleißzustand_quantitativ': pred_wear
-			}]
-    		save_results(results, filename)
-		st.download_button(
-    		label="Download data as JSON",
-    		data=filename,
-    		file_name='Ergebnis.json',
-    		mime='json'
-		)
+
 
 if __name__ == "__main__":
     main()
