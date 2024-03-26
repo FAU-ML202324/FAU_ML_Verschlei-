@@ -67,6 +67,12 @@ speed = st.sidebar.number_input('Schnittgeschwindigkeit (m/min)', value=0)
 feed = st.sidebar.number_input('Vorschubgeschwindigkeit (mm/min)', value=0)
 angle = st.sidebar.number_input('Zustellung (mm)', value=0)
 rotation = st.sidebar.number_input('Drehgeschwindigkeit', value=0)
+st.sidebar.download_button(
+    label="Download data as JSON",
+    data=filename,
+    file_name='Ergebnis.json',
+    mime='json'
+)
     
 if st.button("Werkzeugzustand bewerten") == True:
     image = Image.open(uploaded_image)
@@ -97,12 +103,7 @@ if st.button("Werkzeugzustand bewerten") == True:
         }]
     save_results(results, filename)
   
-  if st.sidebar.button("Verschleißverlauf anzeigen") == True:
-    st.write("Hier Diagramm mit allen Werten aus wertepaare_dict für st.sidebar.text_input('Machine Name')")
-    st.download_button(
-    label="Download data as JSON",
-    data=filename,
-    file_name='large_df.csv',
-    mime='text/csv',
-    )
+#if st.sidebar.button("Verschleißverlauf anzeigen") == True:
+    #st.write("Hier Diagramm mit allen Werten aus wertepaare_dict für st.sidebar.text_input('Machine Name')")
+    
 
