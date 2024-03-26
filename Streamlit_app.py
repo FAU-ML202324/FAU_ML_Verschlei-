@@ -110,7 +110,7 @@ def main():
                 'Bearbeitungsdauer': work_cycle,
                 'Verschleißzustand_quantitativ': pred_wear
             }]
-	global ergebnis
+        global ergebnis
         ergebnis = save_results(results, filename)
     st.download_button('Download JSON', data=ergebnis, file_name = 'Ergebnisse der Modellanalyse')
 
