@@ -69,9 +69,9 @@ feed = st.sidebar.number_input('Vorschubgeschwindigkeit (mm/min)', value=0)
 angle = st.sidebar.number_input('Zustellung (mm)', value=0)
 rotation = st.sidebar.number_input('Drehgeschwindigkeit', value=0)
 
-def main():    
+def main():
 	if st.button("Werkzeugzustand bewerten") == True:
-    		image = Image.open(uploaded_image)
+    	image = Image.open(uploaded_image)
     	#st.image(image, caption='Uploaded Image', use_column_width=True)
     	cropped_image = image.crop((left, upper, right, lower))
     	resized_image = cropped_image.resize((cropped_image.width // 2, cropped_image.height // 2))
