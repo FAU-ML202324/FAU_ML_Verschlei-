@@ -73,7 +73,7 @@ def main():
         resized_image = cropped_image.resize((cropped_image.width // 2, cropped_image.height // 2))
         bild=[]
         bild.append(resized_image)
-	image_array = np.asarray(bild) 
+        image_array = np.asarray(bild) 
         modelprediction, confidence, pred_wear = predict_tool_wear_large(image_array)
         st.write("Werkzeugzustand:")
         st.text_area("Ergebnis", f"{modelprediction}", height=100)
