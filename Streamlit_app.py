@@ -73,18 +73,12 @@ def main():
         resized_image = cropped_image.resize((cropped_image.width // 2, cropped_image.height // 2))
         bild=[]
         bild.append(resized_image)
-        image_array = np.asarray(bild)
-        
-        if model_choice == 'Large Model':
-            modelprediction, confidence, pred_wear = predict_tool_wear_large(image_array)
-            st.write("Werkzeugzustand:")
-            st.text_area("Ergebnis", f"{modelprediction}", height=100)
-            st.write("Wie sicher ist sich das Modell bei dieser Klassifizierung: ", f"{confidence}", "%")
-        elif model_choice == 'Small Model':
-            toolwear_prediction = predict_tool_wear_small(image_array)
-            prediction = predict_tool_wear_large(image_array)
-            st.write("Werkzeugzustand:")
-            st.text_area("Ergebnis", f"{toolwear_prediction}", height=100)
+	image_array = np.asarray(bild) 
+        modelprediction, confidence, pred_wear = predict_tool_wear_large(image_array)
+        st.write("Werkzeugzustand:")
+        st.text_area("Ergebnis", f"{modelprediction}", height=100)
+        st.write("Wie sicher ist sich das Modell bei dieser Klassifizierung: ", f"{confidence}", "%")
+
         filename = 'Ergebnis.json'
         results = load_results(filename)
         if machine_name in results:
